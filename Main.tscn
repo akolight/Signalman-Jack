@@ -1,0 +1,93 @@
+[gd_scene load_steps=7 format=3 uid="uid://gy88otxtne8d"]
+
+[ext_resource type="Script" path="res://Main.gd" id="1_psrdu"]
+[ext_resource type="Texture2D" uid="uid://d4hdbahs03cqh" path="res://sprites/straight_track.png" id="2_7an6c"]
+[ext_resource type="Curve2D" uid="uid://b4q43hsx5dvb8" path="res://MT1Straight.tres" id="3_y2ysp"]
+[ext_resource type="Curve2D" uid="uid://drvrnnew5b64b" path="res://MT2Straight.tres" id="5_iadxu"]
+[ext_resource type="Script" path="res://MT2toMT1PathFollow2D.gd" id="6_2j480"]
+
+[sub_resource type="Curve2D" id="Curve2D_jn2an"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -100, 115, 0, 0, 0, 0, 75, 115, 0, 0, 0, 0, 218, 32, 0, 0, 0, 0, 350, 32)
+}
+point_count = 4
+
+[node name="Root" type="Node"]
+script = ExtResource("1_psrdu")
+
+[node name="StraightTrack" type="Sprite2D" parent="."]
+position = Vector2(64, 32)
+texture = ExtResource("2_7an6c")
+
+[node name="StraightTrack2" type="Sprite2D" parent="."]
+position = Vector2(64, 116)
+texture = ExtResource("2_7an6c")
+
+[node name="StraightTrack3" type="Sprite2D" parent="."]
+position = Vector2(192, 32)
+texture = ExtResource("2_7an6c")
+
+[node name="StraightTrack4" type="Sprite2D" parent="."]
+position = Vector2(192, 116)
+texture = ExtResource("2_7an6c")
+
+[node name="SwitchSprite" type="Sprite2D" parent="."]
+position = Vector2(64, 84)
+texture = ExtResource("2_7an6c")
+centered = false
+
+[node name="SwitchButton" type="Button" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.8
+anchor_right = 0.5
+anchor_bottom = 0.8
+offset_left = -25.0
+offset_top = -20.0
+offset_right = 25.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 10
+text = "Switch
+"
+
+[node name="SwitchState" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 159.0
+offset_right = 41.0
+offset_bottom = 182.0
+
+[node name="TrainButton" type="Button" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Call Train"
+
+[node name="Node" type="Node" parent="."]
+
+[node name="MT1StraightPath" type="Path2D" parent="Node"]
+curve = ExtResource("3_y2ysp")
+
+[node name="MT1StraightPathFollow" type="PathFollow2D" parent="Node/MT1StraightPath"]
+position = Vector2(-100, 32)
+
+[node name="MT2StraightPath" type="Path2D" parent="Node"]
+curve = ExtResource("5_iadxu")
+
+[node name="MT2StraightPathFollow" type="PathFollow2D" parent="Node/MT2StraightPath"]
+position = Vector2(-100, 115)
+
+[node name="MT2toMT1" type="Path2D" parent="Node"]
+curve = SubResource("Curve2D_jn2an")
+
+[node name="MT2toMT1PathFollow2D" type="PathFollow2D" parent="Node/MT2toMT1"]
+position = Vector2(-100, 115)
+script = ExtResource("6_2j480")
+
+[connection signal="pressed" from="SwitchButton" to="." method="_on_switch_button_pressed"]
+[connection signal="pressed" from="TrainButton" to="Node/MT2toMT1/MT2toMT1PathFollow2D" method="_on_train_button_pressed"]

@@ -12,7 +12,18 @@ config_version=5
 
 config/name="Signalman Jack"
 config/features=PackedStringArray("4.2", "GL Compatibility")
+boot_splash/bg_color=Color(0.294118, 0.294118, 0.294118, 1)
+boot_splash/show_image=false
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=256
+window/size/viewport_height=256
+window/size/resizable=false
+window/size/window_width_override=1024
+window/size/window_height_override=1024
+window/stretch/mode="viewport"
 
 [rendering]
 
